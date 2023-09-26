@@ -1,26 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Todos from "./components/Todos";
+import { AddTodo } from "./components/AddTodo";
+import { TodoType } from "./types";
 
-function App() {
+const todosData = [
+  {
+    id: 1,
+    title: "title 1",
+  },
+  {
+    id: 2,
+    title: "title 2",
+  },
+  {
+    id: 3,
+    title: "title 3",
+  },
+  {
+    id: 4,
+    title: "title 4",
+  },
+];
+
+const App = () => {
+  const [todos, setTodos] = useState(todosData);
+
+  const handleDeleteTodo = (id: number) => {
+    console.log(id);
+    const filterTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(filterTodos);
+  };
+
+  const handleAddNewTodo = (newTodo: TodoType) =>{
+    setTodos(prevState => [... prevState, newTodo]);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h2>TypeScript Todo App</h2>
+      <AddTodo handleAddNewTodo={handleAddNewTodo}/>
+
+      <Todos todos={todos} handleDeleteTodo={handleDeleteTodo} />
     </div>
   );
-}
+};
 
 export default App;
